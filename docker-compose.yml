@@ -1,0 +1,97 @@
+services:
+  product-service:
+    build: ./product-service
+    ports:
+      - "8001:8001"
+    depends_on:
+      - product-db
+    env_file:
+      - ./product-service/.env
+    networks:
+      - microservices-net
+
+  order-service:
+    build: ./order-service
+    ports:
+      - "8002:8002"
+    depends_on:
+      - order-db
+      - rabbitmq
+    env_file:
+      - ./order-service/.env
+    networks:
+      - microservices-net
+
+  customer-service:
+    build: ./customer-service
+    ports:
+      - "8003:8003"
+    depends_on:
+      - customer-db
+    env_file:
+      - ./customer-service/.env
+    networks:
+      - microservices-net
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - product-service
+      - order-service
+      - customer-service
+    env_file:
+      - ./api-gateway/.env
+    networks:
+      - microservices-net
+
+  product-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: products_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - product-data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+
+  order-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: orders_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - order-data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+
+  customer-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: customers_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - customer-data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - microservices-net
+
+networks:
+  microservices-net:
+    driver: bridge
+
+volumes:
+  product-data:
+  order-data:
+  customer-data:

@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+   "amqplib": "^0.10.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "pg": "^8.11.0"
+  },
+  "name": "order-service",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

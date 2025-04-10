@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  },
+  "name": "api-gateway",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
