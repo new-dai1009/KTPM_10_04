@@ -27,6 +27,33 @@ class GatewayController {
       res.status(500).json({ error: err.message });
     }
   }
+
+  static async proxyToPayment(req, res) {
+    try {
+      const data = await Proxy.forwardRequest(process.env.PAYMENT_SERVICE_URL, 'post', '/payments', req.body);
+      res.status(201).json(data);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+
+  static async proxyToInventory(req, res) {
+    try {
+      const data = await Proxy.forwardRequest(process.env.INVENTORY_SERVICE_URL, 'put', '/inventory/stock', req.body);
+      res.json(data);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+
+  static async proxyToShipping(req, res) {
+    try {
+      const data = await Proxy.forwardRequest(process.env.SHIPPING_SERVICE_URL, 'post', '/shipping', req.body);
+      res.status(201).json(data);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
 }
 
 module.exports = GatewayController;

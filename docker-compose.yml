@@ -33,6 +33,41 @@ services:
     networks:
       - microservices-net
 
+  payment-service:
+    build: ./payment-service
+    ports:
+      - "8004:8004"
+    depends_on:
+      - payment-db
+    env_file:
+      - ./payment-service/.env
+    networks:
+      - microservices-net
+
+  inventory-service:
+    build: ./inventory-service
+    ports:
+      - "8005:8005"
+    depends_on:
+      - inventory-db
+      - rabbitmq
+    env_file:
+      - ./inventory-service/.env
+    networks:
+      - microservices-net
+
+  shipping-service:
+    build: ./shipping-service
+    ports:
+      - "8006:8006"
+    depends_on:
+      - shipping-db
+      - rabbitmq
+    env_file:
+      - ./shipping-service/.env
+    networks:
+      - microservices-net
+
   api-gateway:
     build: ./api-gateway
     ports:
@@ -41,6 +76,9 @@ services:
       - product-service
       - order-service
       - customer-service
+      - payment-service
+      - inventory-service
+      - shipping-service
     env_file:
       - ./api-gateway/.env
     networks:
@@ -79,6 +117,39 @@ services:
     networks:
       - microservices-net
 
+  payment-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: payments_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - payment-data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+
+  inventory-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: inventory_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - inventory-data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+
+  shipping-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: shipping_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - shipping-data:/var/lib/postgresql/data
+    networks:
+      - microservices-net
+
   rabbitmq:
     image: rabbitmq:3-management
     ports:
@@ -95,3 +166,6 @@ volumes:
   product-data:
   order-data:
   customer-data:
+  payment-data:
+  inventory-data:
+  shipping-data:
