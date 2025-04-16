@@ -85,26 +85,9 @@ Circuit Breaker: Prevents requests to failing services (threshold: 50% errors).
 Retry: Retries failed requests up to 3 times with 1-second intervals.
 Rate Limiter: Limits 100 requests per IP every 15 minutes.
 Time Limiter: Enforces a 5-second timeout for each request.
-## bDirectory Structure
-text
-Copy
-microservices-sales/
-├── product-service/
-│   ├── config/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── Dockerfile
-│   ├── index.js
-│   ├── package.json
-│   └── .env
-├── order-service/
-├── customer-service/
-├── payment-service/
-├── inventory-service/
-├── shipping-service/
-├── api-gateway/
-└── docker-compose.yml
+## Directory Structure
+![image](https://github.com/user-attachments/assets/43baea3b-9fba-4b25-a37c-9f72c3c19492)
+
 ## Future Improvements
 Implement full CRUD operations for all services.
 Add Saga Pattern for distributed transactions.
